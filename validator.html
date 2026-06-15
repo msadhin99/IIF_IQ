@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Validator Agent Rules</title><style>
+:root { --ink:#202124; --muted:#5f6368; --line:#dadce0; --bg:#ffffff; --soft:#f8fafd; --accent:#174ea6; }
+* { box-sizing: border-box; }
+body { margin:0; font:16px/1.55 Arial, Helvetica, sans-serif; color:var(--ink); background:var(--bg); }
+header { background:#0b2341; color:white; padding:32px 24px; }
+header .wrap, main, footer { max-width:1120px; margin:0 auto; }
+nav { background:#f1f5fb; border-bottom:1px solid var(--line); }
+nav .wrap { max-width:1120px; margin:0 auto; padding:10px 24px; display:flex; gap:18px; flex-wrap:wrap; }
+nav a { color:var(--accent); text-decoration:none; font-weight:700; }
+main { padding:28px 24px 48px; }
+h1 { margin:0 0 8px; font-size:32px; line-height:1.2; }
+h2 { margin:32px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--line); font-size:24px; }
+h3 { margin:22px 0 8px; font-size:18px; }
+p { margin:8px 0 12px; }
+ul, ol { margin-top:8px; padding-left:24px; }
+li { margin:4px 0; }
+code { background:#eef3f8; padding:1px 4px; border-radius:4px; }
+.notice { background:var(--soft); border:1px solid var(--line); border-left:5px solid var(--accent); padding:14px 16px; margin:18px 0; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; }
+.card { border:1px solid var(--line); border-radius:8px; padding:14px 16px; background:white; }
+table { border-collapse:collapse; width:100%; margin:12px 0 22px; font-size:14px; }
+th, td { border:1px solid var(--line); padding:8px 10px; vertical-align:top; }
+th { background:#eef3f8; text-align:left; }
+.small { color:var(--muted); font-size:14px; }
+footer { border-top:1px solid var(--line); padding:18px 24px 36px; color:var(--muted); }
+@media (max-width:700px){ h1{font-size:26px;} table{font-size:12px;} th,td{padding:6px;} }
+</style></head>
+<body>
+<header><div class="wrap"><h1>Validator Agent Rules</h1><p>Rules for checking extractor rows against source PDFs and recording corrections for the Investing in Flourishing literature review.</p></div></header>
+<nav><div class="wrap"><a href="index.html">Extractor Knowledge Base</a><a href="validator.html">Validator Rules</a><a href="paper-index.html">Paper Index</a></div></nav>
+<main>
+<section class="notice"><strong>Validator role.</strong> Use this page with the main <a href="index.html">Extractor Knowledge Base</a> and <a href="paper-index.html">Paper Index</a>. The validator does not re-extract everything from scratch; it verifies extractor rows, corrects supported errors, and records unresolved issues.</section>
+<h2>Primary Task</h2>
+<p>Check whether each extraction row correctly represents the source paper. Verify identity fields, design, outcome, group/comparison, time period, treatment/control values, baseline/final values, sample sizes, units, effect estimates, p-values, confidence intervals, standard errors, source location, and notes.</p>
+<h2>Inputs</h2>
+<ul>
+<li>Extractor rows from the extraction workbook.</li>
+<li>Source PDFs or reports used for each row.</li>
+<li>The main knowledge base rules for field definitions, study type rules, effect calculations, missing-value handling, and controlled lists.</li>
+<li>The Paper Index page for Paper ID, suggested PDF filename, program, citation, year, domain, description, and location.</li>
+</ul>
+<h2>Validation Standard</h2>
+<ul>
+<li>Accept a row when the extractor value matches the source and the comparison direction is clear.</li>
+<li>Replace values only when the source clearly supports the correction.</li>
+<li>Leave missing numeric values blank; do not replace missing values with zero.</li>
+<li>Use <code>Not reported</code> only for text fields when the source does not report the information.</li>
+<li>Mark unresolved fields as <code>Discuss in meeting</code> when the paper is ambiguous, internally inconsistent, or requires project-owner judgment.</li>
+<li>Do not move unresolved rows into final standardized data.</li>
+</ul>
+<h2>What to Verify</h2>
+<table><tbody>
+<tr><th>Identity</th><td>Paper ID, source PDF filename, citation, program, year, location, population, and description match the source and Paper Index.</td></tr>
+<tr><th>Design</th><td>Study Type matches the methods: RCT, Quasi-Experimental, Simulation, Nonexperimental, WSIPP Meta Analysis, Observational/ Non-RCT, Group Study, Pre-post evaluation, or Other.</td></tr>
+<tr><th>Outcome</th><td>Outcome_Fixed is a reasonable standardized label; Outcome reflects the source wording; Outcome Domain is appropriate.</td></tr>
+<tr><th>Group and Period</th><td>Group captures subgroup, comparator, analytic sample, or follow-up window. Period is reported in months up to 2 decimals when possible.</td></tr>
+<tr><th>Values</th><td>Control Baseline, Control Final, Treatment Baseline, Treatment Final, sample sizes, N, units, and error terms match the source.</td></tr>
+<tr><th>Calculations</th><td>Abs Diff and Rel Change follow the knowledge base formulas and use the correct denominator and comparison direction.</td></tr>
+<tr><th>Traceability</th><td>Every numeric value has a source location with page plus table, figure, exhibit, appendix, or section label.</td></tr>
+</tbody></table>
+<h2>Validator Notes Columns</h2>
+<p>For each issue, record these columns in this exact order:</p>
+<p><code>Paper ID</code>, <code>Outcome</code>, <code>Program</code>, <code>Issue Type</code>, <code>Issue Summary</code>, <code>Field</code>, <code>Extractor Value</code>, <code>Validator Value</code>, <code>Why It Matters</code>, <code>Recommended Fix</code>, <code>Confidence</code>, <code>Validator Decision</code>, <code>Evidence Location</code>, <code>Notes</code>, <code>Resolved</code>.</p>
+<h2>Controlled Values</h2>
+<table><tbody>
+<tr><th>Issue Type</th><td>Missing source; Value mismatch; Wrong unit; Wrong group; Wrong period; Ambiguous comparison; Needs calculation; Other.</td></tr>
+<tr><th>Confidence</th><td>High when the source clearly supports the decision; Medium when interpretation is needed; Low when the paper is ambiguous or incomplete.</td></tr>
+<tr><th>Validator Decision</th><td>Accept extractor value; Replace with validator value; Mark not reported; Discuss in meeting.</td></tr>
+<tr><th>Resolved</th><td>Use Yes only after the extraction or final data row has been corrected or accepted. Otherwise use No.</td></tr>
+</tbody></table>
+<h2>How to Write Issue Fields</h2>
+<ul>
+<li><strong>Issue Summary:</strong> one clear sentence stating what is wrong or uncertain.</li>
+<li><strong>Field:</strong> exact extraction column being reviewed, such as Treatment Final, Control Sample Size, Period, p value, or Source Location.</li>
+<li><strong>Extractor Value:</strong> copy the original extractor value exactly. Leave blank only if the extractor left it blank.</li>
+<li><strong>Validator Value:</strong> enter the corrected value supported by the source. For missing numeric values, leave blank.</li>
+<li><strong>Why It Matters:</strong> state whether the issue affects effect size, sample size, study classification, source traceability, or meta-analysis readiness.</li>
+<li><strong>Recommended Fix:</strong> use direct action language such as Replace value, Add source table, Recalculate Abs Diff, Leave blank, or Discuss in meeting.</li>
+<li><strong>Evidence Location:</strong> include page number plus table, figure, appendix, exhibit, or section label when available.</li>
+<li><strong>Notes:</strong> write a detailed free-text paragraph covering what was checked, what the source says, why the extractor value is accepted or corrected, uncertainty, and follow-up needed.</li>
+</ul>
+<h2>Validation Workflow</h2>
+<ol>
+<li>Match the extraction row to the Paper Index and source PDF.</li>
+<li>Read the relevant methods, sample description, outcome definition, table/figure, appendix, and footnotes.</li>
+<li>Check whether the row should exist as its own outcome, group/comparison, and time period.</li>
+<li>Verify each field against the source, including units and sample sizes.</li>
+<li>Recalculate Abs Diff and Rel Change only when the required raw fields and denominator are clear.</li>
+<li>Create a validator note for every issue, correction, or unresolved ambiguity.</li>
+<li>Accept rows only when values match the source and comparison direction is clear.</li>
+<li>Keep unresolved rows out of final standardized data until reviewed.</li>
+</ol>
+<h2>Final Output</h2>
+<p>Return an Excel-ready validator notes table. If a workbook is requested, create a sheet named <code>Validator_Notes</code> with the required columns and a short <code>Read_Me</code> sheet summarizing rows checked, rows accepted, rows corrected, unresolved rows, and common issue types.</p>
+</main><footer>Generated 2026-06-15 from the local project context files. Existing source files were not modified.</footer>
+</body></html>
